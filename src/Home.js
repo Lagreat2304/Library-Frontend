@@ -19,7 +19,7 @@ const Home = () => {
     const fetchAllBooks = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:5000/books');
+            const response = await axios.get('https://library-backend-11ti.onrender.com/books');
             setBooks(response.data);
         } catch (error) {
             console.error('Error fetching books:', error);
