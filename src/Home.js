@@ -11,6 +11,31 @@ const Home = () => {
         genre: '',
         id: ''
     });
+    const [formData, setFormData] = useState({
+        Book: '',
+        Author: '',
+        Genre: '',
+        Count: ''
+      });
+      const [showOverlay, setShowOverlay] = useState(false);
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5000/add', formData);
+            alert('Product added successfully');
+            fetchAllBooks();
+            setFormData({
+                Book: '',
+                Author: '',
+                Genre: '',
+                Count: ''
+            });
+          } catch (error) {
+            console.error('Error adding product:', error);
+            alert('An error occurred while adding the product');
+          }
+        };
 
     useEffect(() => {
         fetchAllBooks();
@@ -43,6 +68,7 @@ const Home = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFilterData({ ...filterData, [name]: value });
+            setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleFilter = () => {
@@ -70,6 +96,38 @@ const Home = () => {
 
     return (
         <div className="home-container">
+            <button onClick={() => setShowOverlay(true)}>Add Books</button>
+            {showOverlay && (
+        <div className="overlay">
+        <div className="overlay-content">
+          <h3>Add Book</h3>
+          <div>
+            <label>
+              Book Name:
+              <input type="text" name="Book" value={formData.Book} onChange={handleInputChange} required />
+            </label>
+            <br />
+            <label>
+              Author:
+              <input type="text" name="Author" value={formData.Author} onChange={handleInputChange} required />
+            </label>
+            <br />
+            <label>
+              Genre:
+              <input type="text" name="Genre" value={formData.Genre} onChange={handleInputChange} required />
+            </label>
+            <br />
+            <label>
+              Count:
+              <input type="tel" name="Count" value={formData.Count} onChange={handleInputChange} required />
+            </label>
+            <br />
+            <button type="submit" onClick={handleSubmit}>Add Books</button>
+            <button onClick={() => setShowOverlay(false)}>Cancel</button>
+          </div>
+        </div>
+        </div>
+      )}
             <div className="filter-content">
                 <h2>Filters</h2>
                 <div className="filter-inputs">
