@@ -22,7 +22,7 @@ const Home = () => {
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/add', formData);
+            await axios.post('https://library-backend-11ti.onrender.com/add', formData);
             alert('Product added successfully');
             fetchAllBooks();
             setFormData({
